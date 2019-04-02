@@ -6,6 +6,12 @@ const authRouter = express.Router();
 const User = require('./users-model.js');
 const auth = require('./middleware.js');
 const oauth = require('./oauth/google.js');
+const secured = require('../middleware/secured.js');
+
+
+authRouter.get('/', function (req, res, next) {
+  res.render('index', { title: 'Auth0 Webapp sample Nodejs' });
+});
 
 authRouter.post('/signup', (req, res, next) => {
   let user = new User(req.body);
@@ -31,5 +37,14 @@ authRouter.get('/oauth', (req,res,next) => {
     })
     .catch(next);
 });
+
+authRouter.get('/user', secured, function (req, res, next) {   //Changed secured from secured()
+  const { _raw, _json, ...userProfile } = req.user;
+  res.render('user', {
+    userProfile: JSON.stringify(userProfile, null, 2),
+    title: 'Profile page'
+  });
+});
+
 
 module.exports = authRouter;
