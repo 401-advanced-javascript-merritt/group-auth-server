@@ -38,7 +38,7 @@ authRouter.get('/oauth', (req,res,next) => {
     .catch(next);
 });
 
-authRouter.get('/user', secured, function (req, res, next) {   //Changed secured from secured()
+authRouter.get('/user', secured(), function (req, res, next) {   //Changed secured from secured()
   const { _raw, _json, ...userProfile } = req.user;
   res.render('user', {
     userProfile: JSON.stringify(userProfile, null, 2),

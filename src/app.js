@@ -66,6 +66,8 @@ passport.use(strategy);
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(auth0);
+
 //Smaller payload
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -79,7 +81,6 @@ passport.deserializeUser(function (user, done) {
 app.use(userInViews);
 
 // Routes
-app.use(auth0);
 app.use(authRouter);
 
 // Catchalls
